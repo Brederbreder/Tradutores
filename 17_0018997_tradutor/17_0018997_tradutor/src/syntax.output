@@ -1,0 +1,3147 @@
+Terminals unused in grammar
+
+    INT
+    FLOAT
+    LIST
+
+
+Grammar
+
+    0 $accept: prog $end
+
+    1 prog: decl_list
+
+    2 decl_list: decl decl_list
+    3          | decl
+
+    4 decl: var_decl
+    5     | funct_decl
+
+    6 var_decl: TYPE ID ';'
+
+    7 funct_decl: TYPE ID '(' params ')' statements
+
+    8 params: param_list
+    9       | %empty
+
+   10 param_list: param_type_list ',' param_list
+   11           | param_type_list
+
+   12 param_type_list: TYPE ID
+
+   13 statement: exp_statement
+   14          | statements
+   15          | if_statement
+   16          | for_statement
+   17          | return_statement
+   18          | read
+   19          | write
+
+   20 exp_statement: exp ';'
+   21              | ';'
+
+   22 statements: '{' declarations '}'
+
+   23 declarations: var_decl declarations
+   24             | statement declarations
+   25             | %empty
+
+   26 if_statement: IF_RW '(' exp_log ')' statements
+   27             | IF_RW '(' exp_log ')' statements ELSE_RW statements
+
+   28 for_statement: FOR_RW '(' exp ';' exp ';' exp ')' statement
+
+   29 return_statement: RETURN_RW exp_statement
+
+   30 read: READ '(' ID ')'
+
+   31 write: WRITE '(' exp_log ')'
+   32      | WRITE '(' STRING ')'
+   33      | WRITELN '(' exp_log ')'
+   34      | WRITELN '(' STRING ')'
+
+   35 exp: ID ASSIGN_OP exp
+   36    | exp_log
+
+   37 exp_log: exp_log LOG_OP exp_list
+   38        | exp_list
+
+   39 exp_list: exp_list LIST_BIN_OP exp_rel
+   40         | exp_rel
+
+   41 exp_rel: exp_rel REL_OP exp_add
+   42        | exp_add
+
+   43 exp_add: exp_add ADD_OP exp_mult
+   44        | exp_mult
+
+   45 exp_mult: exp_mult MUL_OP exp_un_list
+   46         | exp_un_list
+
+   47 exp_un_list: un_list_op exp_un
+   48            | exp_un
+
+   49 un_list_op: LIST_UN_OP
+   50           | EXC_OP
+
+   51 exp_un: factor
+
+   52 factor: '(' exp ')'
+   53       | funct_call
+   54       | const
+   55       | ID
+
+   56 funct_call: ID '(' argument ')'
+
+   57 argument: arg_list
+   58         | %empty
+
+   59 arg_list: exp_log ',' arg_list
+   60         | exp_log
+
+   61 const: INT_VALUE
+   62      | FLOAT_VALUE
+   63      | NIL_RW
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '(' <token> (40) 7 26 27 28 30 31 32 33 34 52 56
+    ')' <token> (41) 7 26 27 28 30 31 32 33 34 52 56
+    ',' <token> (44) 10 59
+    ';' <token> (59) 6 20 21 28
+    '{' <token> (123) 22
+    '}' <token> (125) 22
+    error (256)
+    INT <token> (258)
+    FLOAT <token> (259)
+    LIST <token> (260)
+    TYPE <token> (261) 6 7 12
+    READ <token> (262) 30
+    WRITE <token> (263) 31 32
+    WRITELN <token> (264) 33 34
+    STRING <token> (265) 32 34
+    ID <token> (266) 6 7 12 30 35 55 56
+    INT_VALUE <token> (267) 61
+    FLOAT_VALUE <token> (268) 62
+    NIL_RW <token> (269) 63
+    LIST_BIN_OP <token> (270) 39
+    REL_OP <token> (271) 41
+    ASSIGN_OP <token> (272) 35
+    FOR_RW <token> (273) 28
+    IF_RW <token> (274) 26 27
+    RETURN_RW <token> (275) 29
+    EXC_OP <token> (276) 50
+    LIST_UN_OP <token> (277) 49
+    ELSE_RW <token> (278) 27
+    ADD_OP <token> (279) 43
+    MUL_OP <token> (280) 45
+    LOG_OP <token> (281) 37
+
+
+Nonterminals, with rules where they appear
+
+    $accept (33)
+        on left: 0
+    prog <node> (34)
+        on left: 1
+        on right: 0
+    decl_list <node> (35)
+        on left: 2 3
+        on right: 1 2
+    decl <node> (36)
+        on left: 4 5
+        on right: 2 3
+    var_decl <node> (37)
+        on left: 6
+        on right: 4 23
+    funct_decl <node> (38)
+        on left: 7
+        on right: 5
+    params <node> (39)
+        on left: 8 9
+        on right: 7
+    param_list <node> (40)
+        on left: 10 11
+        on right: 8 10
+    param_type_list <node> (41)
+        on left: 12
+        on right: 10 11
+    statement <node> (42)
+        on left: 13 14 15 16 17 18 19
+        on right: 24 28
+    exp_statement <node> (43)
+        on left: 20 21
+        on right: 13 29
+    statements <node> (44)
+        on left: 22
+        on right: 7 14 26 27
+    declarations <node> (45)
+        on left: 23 24 25
+        on right: 22 23 24
+    if_statement <node> (46)
+        on left: 26 27
+        on right: 15
+    for_statement <node> (47)
+        on left: 28
+        on right: 16
+    return_statement <node> (48)
+        on left: 29
+        on right: 17
+    read <node> (49)
+        on left: 30
+        on right: 18
+    write <node> (50)
+        on left: 31 32 33 34
+        on right: 19
+    exp <node> (51)
+        on left: 35 36
+        on right: 20 28 35 52
+    exp_log <node> (52)
+        on left: 37 38
+        on right: 26 27 31 33 36 37 59 60
+    exp_list <node> (53)
+        on left: 39 40
+        on right: 37 38 39
+    exp_rel <node> (54)
+        on left: 41 42
+        on right: 39 40 41
+    exp_add <node> (55)
+        on left: 43 44
+        on right: 41 42 43
+    exp_mult <node> (56)
+        on left: 45 46
+        on right: 43 44 45
+    exp_un_list <node> (57)
+        on left: 47 48
+        on right: 45 46
+    un_list_op <node> (58)
+        on left: 49 50
+        on right: 47
+    exp_un <node> (59)
+        on left: 51
+        on right: 47 48
+    factor <node> (60)
+        on left: 52 53 54 55
+        on right: 51
+    funct_call <node> (61)
+        on left: 56
+        on right: 53
+    argument <node> (62)
+        on left: 57 58
+        on right: 56
+    arg_list <node> (63)
+        on left: 59 60
+        on right: 57 59
+    const <node> (64)
+        on left: 61 62 63
+        on right: 54
+
+
+State 0
+
+    0 $accept: • prog $end
+
+    TYPE  shift, and go to state 1
+
+    prog        go to state 2
+    decl_list   go to state 3
+    decl        go to state 4
+    var_decl    go to state 5
+    funct_decl  go to state 6
+
+
+State 1
+
+    6 var_decl: TYPE • ID ';'
+    7 funct_decl: TYPE • ID '(' params ')' statements
+
+    ID  shift, and go to state 7
+
+
+State 2
+
+    0 $accept: prog • $end
+
+    $end  shift, and go to state 8
+
+
+State 3
+
+    1 prog: decl_list •
+
+    $end  reduce using rule 1 (prog)
+
+
+State 4
+
+    2 decl_list: decl • decl_list
+    3          | decl •
+
+    TYPE  shift, and go to state 1
+
+    $end  reduce using rule 3 (decl_list)
+
+    decl_list   go to state 9
+    decl        go to state 4
+    var_decl    go to state 5
+    funct_decl  go to state 6
+
+
+State 5
+
+    4 decl: var_decl •
+
+    $end  reduce using rule 4 (decl)
+    TYPE  reduce using rule 4 (decl)
+
+
+State 6
+
+    5 decl: funct_decl •
+
+    $end  reduce using rule 5 (decl)
+    TYPE  reduce using rule 5 (decl)
+
+
+State 7
+
+    6 var_decl: TYPE ID • ';'
+    7 funct_decl: TYPE ID • '(' params ')' statements
+
+    ';'  shift, and go to state 10
+    '('  shift, and go to state 11
+
+
+State 8
+
+    0 $accept: prog $end •
+
+    $default  accept
+
+
+State 9
+
+    2 decl_list: decl decl_list •
+
+    $end  reduce using rule 2 (decl_list)
+
+
+State 10
+
+    6 var_decl: TYPE ID ';' •
+
+    $end  reduce using rule 6 (var_decl)
+    TYPE  reduce using rule 6 (var_decl)
+
+
+State 11
+
+    7 funct_decl: TYPE ID '(' • params ')' statements
+
+    TYPE  shift, and go to state 12
+
+    ')'  reduce using rule 9 (params)
+
+    params           go to state 13
+    param_list       go to state 14
+    param_type_list  go to state 15
+
+
+State 12
+
+   12 param_type_list: TYPE • ID
+
+    ID  shift, and go to state 16
+
+
+State 13
+
+    7 funct_decl: TYPE ID '(' params • ')' statements
+
+    ')'  shift, and go to state 17
+
+
+State 14
+
+    8 params: param_list •
+
+    ')'  reduce using rule 8 (params)
+
+
+State 15
+
+   10 param_list: param_type_list • ',' param_list
+   11           | param_type_list •
+
+    ','  shift, and go to state 18
+
+    ')'  reduce using rule 11 (param_list)
+
+
+State 16
+
+   12 param_type_list: TYPE ID •
+
+    ')'  reduce using rule 12 (param_type_list)
+    ','  reduce using rule 12 (param_type_list)
+
+
+State 17
+
+    7 funct_decl: TYPE ID '(' params ')' • statements
+
+    '{'  shift, and go to state 19
+
+    statements  go to state 20
+
+
+State 18
+
+   10 param_list: param_type_list ',' • param_list
+
+    TYPE  shift, and go to state 12
+
+    param_list       go to state 21
+    param_type_list  go to state 15
+
+
+State 19
+
+   22 statements: '{' • declarations '}'
+
+    TYPE         shift, and go to state 22
+    READ         shift, and go to state 23
+    WRITE        shift, and go to state 24
+    WRITELN      shift, and go to state 25
+    ID           shift, and go to state 26
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    FOR_RW       shift, and go to state 30
+    IF_RW        shift, and go to state 31
+    RETURN_RW    shift, and go to state 32
+    ';'          shift, and go to state 33
+    '{'          shift, and go to state 115
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    '}'  reduce using rule 25 (declarations)
+
+    var_decl          go to state 37
+    statement         go to state 38
+    exp_statement     go to state 39
+    statements        go to state 40
+    declarations      go to state 41
+    if_statement      go to state 42
+    for_statement     go to state 43
+    return_statement  go to state 44
+    read              go to state 45
+    write             go to state 46
+    exp               go to state 47
+    exp_log           go to state 48
+    exp_list          go to state 49
+    exp_rel           go to state 50
+    exp_add           go to state 51
+    exp_mult          go to state 52
+    exp_un_list       go to state 53
+    un_list_op        go to state 54
+    exp_un            go to state 55
+    factor            go to state 56
+    funct_call        go to state 57
+    const             go to state 58
+
+
+State 20
+
+    7 funct_decl: TYPE ID '(' params ')' statements •
+
+    $end  reduce using rule 7 (funct_decl)
+    TYPE  reduce using rule 7 (funct_decl)
+
+
+State 21
+
+   10 param_list: param_type_list ',' param_list •
+
+    ')'  reduce using rule 10 (param_list)
+
+
+State 22
+
+    6 var_decl: TYPE • ID ';'
+
+    ID  shift, and go to state 59
+
+
+State 23
+
+   30 read: READ • '(' ID ')'
+
+    '('  shift, and go to state 60
+
+
+State 24
+
+   31 write: WRITE • '(' exp_log ')'
+   32      | WRITE • '(' STRING ')'
+
+    '('  shift, and go to state 61
+
+
+State 25
+
+   33 write: WRITELN • '(' exp_log ')'
+   34      | WRITELN • '(' STRING ')'
+
+    '('  shift, and go to state 62
+
+
+State 26
+
+   35 exp: ID • ASSIGN_OP exp
+   55 factor: ID •
+   56 funct_call: ID • '(' argument ')'
+
+    ASSIGN_OP  shift, and go to state 63
+    '('        shift, and go to state 64
+
+    LIST_BIN_OP  reduce using rule 55 (factor)
+    REL_OP       reduce using rule 55 (factor)
+    ';'          reduce using rule 55 (factor)
+    ADD_OP       reduce using rule 55 (factor)
+    MUL_OP       reduce using rule 55 (factor)
+    LOG_OP       reduce using rule 55 (factor)
+
+
+State 27
+
+   61 const: INT_VALUE •
+
+    LIST_BIN_OP  reduce using rule 61 (const)
+    REL_OP       reduce using rule 61 (const)
+    ';'          reduce using rule 61 (const)
+    ADD_OP       reduce using rule 61 (const)
+    MUL_OP       reduce using rule 61 (const)
+    LOG_OP       reduce using rule 61 (const)
+
+
+State 28
+
+   62 const: FLOAT_VALUE •
+
+    LIST_BIN_OP  reduce using rule 62 (const)
+    REL_OP       reduce using rule 62 (const)
+    ';'          reduce using rule 62 (const)
+    ADD_OP       reduce using rule 62 (const)
+    MUL_OP       reduce using rule 62 (const)
+    LOG_OP       reduce using rule 62 (const)
+
+
+State 29
+
+   63 const: NIL_RW •
+
+    LIST_BIN_OP  reduce using rule 63 (const)
+    REL_OP       reduce using rule 63 (const)
+    ';'          reduce using rule 63 (const)
+    ADD_OP       reduce using rule 63 (const)
+    MUL_OP       reduce using rule 63 (const)
+    LOG_OP       reduce using rule 63 (const)
+
+
+State 30
+
+   28 for_statement: FOR_RW • '(' exp ';' exp ';' exp ')' statement
+
+    '('  shift, and go to state 65
+
+
+State 31
+
+   26 if_statement: IF_RW • '(' exp_log ')' statements
+   27             | IF_RW • '(' exp_log ')' statements ELSE_RW statements
+
+    '('  shift, and go to state 66
+
+
+State 32
+
+   29 return_statement: RETURN_RW • exp_statement
+
+    ID           shift, and go to state 26
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    ';'          shift, and go to state 33
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_statement  go to state 67
+    exp            go to state 47
+    exp_log        go to state 48
+    exp_list       go to state 49
+    exp_rel        go to state 50
+    exp_add        go to state 51
+    exp_mult       go to state 52
+    exp_un_list    go to state 53
+    un_list_op     go to state 54
+    exp_un         go to state 55
+    factor         go to state 56
+    funct_call     go to state 57
+    const          go to state 58
+
+
+State 33
+
+   21 exp_statement: ';' •
+
+    TYPE         reduce using rule 21 (exp_statement)
+    READ         reduce using rule 21 (exp_statement)
+    WRITE        reduce using rule 21 (exp_statement)
+    WRITELN      reduce using rule 21 (exp_statement)
+    ID           reduce using rule 21 (exp_statement)
+    INT_VALUE    reduce using rule 21 (exp_statement)
+    FLOAT_VALUE  reduce using rule 21 (exp_statement)
+    NIL_RW       reduce using rule 21 (exp_statement)
+    FOR_RW       reduce using rule 21 (exp_statement)
+    IF_RW        reduce using rule 21 (exp_statement)
+    RETURN_RW    reduce using rule 21 (exp_statement)
+    ';'          reduce using rule 21 (exp_statement)
+    '{'          reduce using rule 21 (exp_statement)
+    '}'          reduce using rule 21 (exp_statement)
+    '('          reduce using rule 21 (exp_statement)
+    EXC_OP       reduce using rule 21 (exp_statement)
+    LIST_UN_OP   reduce using rule 21 (exp_statement)
+
+
+State 34
+
+   52 factor: '(' • exp ')'
+
+    ID           shift, and go to state 116
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp          go to state 68
+    exp_log      go to state 121
+    exp_list     go to state 122
+    exp_rel      go to state 123
+    exp_add      go to state 124
+    exp_mult     go to state 125
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 35
+
+   50 un_list_op: EXC_OP •
+
+    ID           reduce using rule 50 (un_list_op)
+    INT_VALUE    reduce using rule 50 (un_list_op)
+    FLOAT_VALUE  reduce using rule 50 (un_list_op)
+    NIL_RW       reduce using rule 50 (un_list_op)
+    '('          reduce using rule 50 (un_list_op)
+
+
+State 36
+
+   49 un_list_op: LIST_UN_OP •
+
+    ID           reduce using rule 49 (un_list_op)
+    INT_VALUE    reduce using rule 49 (un_list_op)
+    FLOAT_VALUE  reduce using rule 49 (un_list_op)
+    NIL_RW       reduce using rule 49 (un_list_op)
+    '('          reduce using rule 49 (un_list_op)
+
+
+State 37
+
+   23 declarations: var_decl • declarations
+
+    TYPE         shift, and go to state 22
+    READ         shift, and go to state 23
+    WRITE        shift, and go to state 24
+    WRITELN      shift, and go to state 25
+    ID           shift, and go to state 26
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    FOR_RW       shift, and go to state 30
+    IF_RW        shift, and go to state 31
+    RETURN_RW    shift, and go to state 32
+    ';'          shift, and go to state 33
+    '{'          shift, and go to state 115
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    '}'  reduce using rule 25 (declarations)
+
+    var_decl          go to state 37
+    statement         go to state 38
+    exp_statement     go to state 39
+    statements        go to state 40
+    declarations      go to state 69
+    if_statement      go to state 42
+    for_statement     go to state 43
+    return_statement  go to state 44
+    read              go to state 45
+    write             go to state 46
+    exp               go to state 47
+    exp_log           go to state 48
+    exp_list          go to state 49
+    exp_rel           go to state 50
+    exp_add           go to state 51
+    exp_mult          go to state 52
+    exp_un_list       go to state 53
+    un_list_op        go to state 54
+    exp_un            go to state 55
+    factor            go to state 56
+    funct_call        go to state 57
+    const             go to state 58
+
+
+State 38
+
+   24 declarations: statement • declarations
+
+    TYPE         shift, and go to state 22
+    READ         shift, and go to state 23
+    WRITE        shift, and go to state 24
+    WRITELN      shift, and go to state 25
+    ID           shift, and go to state 26
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    FOR_RW       shift, and go to state 30
+    IF_RW        shift, and go to state 31
+    RETURN_RW    shift, and go to state 32
+    ';'          shift, and go to state 33
+    '{'          shift, and go to state 115
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    '}'  reduce using rule 25 (declarations)
+
+    var_decl          go to state 37
+    statement         go to state 38
+    exp_statement     go to state 39
+    statements        go to state 40
+    declarations      go to state 70
+    if_statement      go to state 42
+    for_statement     go to state 43
+    return_statement  go to state 44
+    read              go to state 45
+    write             go to state 46
+    exp               go to state 47
+    exp_log           go to state 48
+    exp_list          go to state 49
+    exp_rel           go to state 50
+    exp_add           go to state 51
+    exp_mult          go to state 52
+    exp_un_list       go to state 53
+    un_list_op        go to state 54
+    exp_un            go to state 55
+    factor            go to state 56
+    funct_call        go to state 57
+    const             go to state 58
+
+
+State 39
+
+   13 statement: exp_statement •
+
+    TYPE         reduce using rule 13 (statement)
+    READ         reduce using rule 13 (statement)
+    WRITE        reduce using rule 13 (statement)
+    WRITELN      reduce using rule 13 (statement)
+    ID           reduce using rule 13 (statement)
+    INT_VALUE    reduce using rule 13 (statement)
+    FLOAT_VALUE  reduce using rule 13 (statement)
+    NIL_RW       reduce using rule 13 (statement)
+    FOR_RW       reduce using rule 13 (statement)
+    IF_RW        reduce using rule 13 (statement)
+    RETURN_RW    reduce using rule 13 (statement)
+    ';'          reduce using rule 13 (statement)
+    '{'          reduce using rule 13 (statement)
+    '}'          reduce using rule 13 (statement)
+    '('          reduce using rule 13 (statement)
+    EXC_OP       reduce using rule 13 (statement)
+    LIST_UN_OP   reduce using rule 13 (statement)
+
+
+State 40
+
+   14 statement: statements •
+
+    TYPE         reduce using rule 14 (statement)
+    READ         reduce using rule 14 (statement)
+    WRITE        reduce using rule 14 (statement)
+    WRITELN      reduce using rule 14 (statement)
+    ID           reduce using rule 14 (statement)
+    INT_VALUE    reduce using rule 14 (statement)
+    FLOAT_VALUE  reduce using rule 14 (statement)
+    NIL_RW       reduce using rule 14 (statement)
+    FOR_RW       reduce using rule 14 (statement)
+    IF_RW        reduce using rule 14 (statement)
+    RETURN_RW    reduce using rule 14 (statement)
+    ';'          reduce using rule 14 (statement)
+    '{'          reduce using rule 14 (statement)
+    '}'          reduce using rule 14 (statement)
+    '('          reduce using rule 14 (statement)
+    EXC_OP       reduce using rule 14 (statement)
+    LIST_UN_OP   reduce using rule 14 (statement)
+
+
+State 41
+
+   22 statements: '{' declarations • '}'
+
+    '}'  shift, and go to state 71
+
+
+State 42
+
+   15 statement: if_statement •
+
+    TYPE         reduce using rule 15 (statement)
+    READ         reduce using rule 15 (statement)
+    WRITE        reduce using rule 15 (statement)
+    WRITELN      reduce using rule 15 (statement)
+    ID           reduce using rule 15 (statement)
+    INT_VALUE    reduce using rule 15 (statement)
+    FLOAT_VALUE  reduce using rule 15 (statement)
+    NIL_RW       reduce using rule 15 (statement)
+    FOR_RW       reduce using rule 15 (statement)
+    IF_RW        reduce using rule 15 (statement)
+    RETURN_RW    reduce using rule 15 (statement)
+    ';'          reduce using rule 15 (statement)
+    '{'          reduce using rule 15 (statement)
+    '}'          reduce using rule 15 (statement)
+    '('          reduce using rule 15 (statement)
+    EXC_OP       reduce using rule 15 (statement)
+    LIST_UN_OP   reduce using rule 15 (statement)
+
+
+State 43
+
+   16 statement: for_statement •
+
+    TYPE         reduce using rule 16 (statement)
+    READ         reduce using rule 16 (statement)
+    WRITE        reduce using rule 16 (statement)
+    WRITELN      reduce using rule 16 (statement)
+    ID           reduce using rule 16 (statement)
+    INT_VALUE    reduce using rule 16 (statement)
+    FLOAT_VALUE  reduce using rule 16 (statement)
+    NIL_RW       reduce using rule 16 (statement)
+    FOR_RW       reduce using rule 16 (statement)
+    IF_RW        reduce using rule 16 (statement)
+    RETURN_RW    reduce using rule 16 (statement)
+    ';'          reduce using rule 16 (statement)
+    '{'          reduce using rule 16 (statement)
+    '}'          reduce using rule 16 (statement)
+    '('          reduce using rule 16 (statement)
+    EXC_OP       reduce using rule 16 (statement)
+    LIST_UN_OP   reduce using rule 16 (statement)
+
+
+State 44
+
+   17 statement: return_statement •
+
+    TYPE         reduce using rule 17 (statement)
+    READ         reduce using rule 17 (statement)
+    WRITE        reduce using rule 17 (statement)
+    WRITELN      reduce using rule 17 (statement)
+    ID           reduce using rule 17 (statement)
+    INT_VALUE    reduce using rule 17 (statement)
+    FLOAT_VALUE  reduce using rule 17 (statement)
+    NIL_RW       reduce using rule 17 (statement)
+    FOR_RW       reduce using rule 17 (statement)
+    IF_RW        reduce using rule 17 (statement)
+    RETURN_RW    reduce using rule 17 (statement)
+    ';'          reduce using rule 17 (statement)
+    '{'          reduce using rule 17 (statement)
+    '}'          reduce using rule 17 (statement)
+    '('          reduce using rule 17 (statement)
+    EXC_OP       reduce using rule 17 (statement)
+    LIST_UN_OP   reduce using rule 17 (statement)
+
+
+State 45
+
+   18 statement: read •
+
+    TYPE         reduce using rule 18 (statement)
+    READ         reduce using rule 18 (statement)
+    WRITE        reduce using rule 18 (statement)
+    WRITELN      reduce using rule 18 (statement)
+    ID           reduce using rule 18 (statement)
+    INT_VALUE    reduce using rule 18 (statement)
+    FLOAT_VALUE  reduce using rule 18 (statement)
+    NIL_RW       reduce using rule 18 (statement)
+    FOR_RW       reduce using rule 18 (statement)
+    IF_RW        reduce using rule 18 (statement)
+    RETURN_RW    reduce using rule 18 (statement)
+    ';'          reduce using rule 18 (statement)
+    '{'          reduce using rule 18 (statement)
+    '}'          reduce using rule 18 (statement)
+    '('          reduce using rule 18 (statement)
+    EXC_OP       reduce using rule 18 (statement)
+    LIST_UN_OP   reduce using rule 18 (statement)
+
+
+State 46
+
+   19 statement: write •
+
+    TYPE         reduce using rule 19 (statement)
+    READ         reduce using rule 19 (statement)
+    WRITE        reduce using rule 19 (statement)
+    WRITELN      reduce using rule 19 (statement)
+    ID           reduce using rule 19 (statement)
+    INT_VALUE    reduce using rule 19 (statement)
+    FLOAT_VALUE  reduce using rule 19 (statement)
+    NIL_RW       reduce using rule 19 (statement)
+    FOR_RW       reduce using rule 19 (statement)
+    IF_RW        reduce using rule 19 (statement)
+    RETURN_RW    reduce using rule 19 (statement)
+    ';'          reduce using rule 19 (statement)
+    '{'          reduce using rule 19 (statement)
+    '}'          reduce using rule 19 (statement)
+    '('          reduce using rule 19 (statement)
+    EXC_OP       reduce using rule 19 (statement)
+    LIST_UN_OP   reduce using rule 19 (statement)
+
+
+State 47
+
+   20 exp_statement: exp • ';'
+
+    ';'  shift, and go to state 72
+
+
+State 48
+
+   36 exp: exp_log •
+   37 exp_log: exp_log • LOG_OP exp_list
+
+    LOG_OP  shift, and go to state 73
+
+    ';'  reduce using rule 36 (exp)
+
+
+State 49
+
+   38 exp_log: exp_list •
+   39 exp_list: exp_list • LIST_BIN_OP exp_rel
+
+    LIST_BIN_OP  shift, and go to state 74
+
+    ';'     reduce using rule 38 (exp_log)
+    LOG_OP  reduce using rule 38 (exp_log)
+
+
+State 50
+
+   40 exp_list: exp_rel •
+   41 exp_rel: exp_rel • REL_OP exp_add
+
+    REL_OP  shift, and go to state 75
+
+    LIST_BIN_OP  reduce using rule 40 (exp_list)
+    ';'          reduce using rule 40 (exp_list)
+    LOG_OP       reduce using rule 40 (exp_list)
+
+
+State 51
+
+   42 exp_rel: exp_add •
+   43 exp_add: exp_add • ADD_OP exp_mult
+
+    ADD_OP  shift, and go to state 76
+
+    LIST_BIN_OP  reduce using rule 42 (exp_rel)
+    REL_OP       reduce using rule 42 (exp_rel)
+    ';'          reduce using rule 42 (exp_rel)
+    LOG_OP       reduce using rule 42 (exp_rel)
+
+
+State 52
+
+   44 exp_add: exp_mult •
+   45 exp_mult: exp_mult • MUL_OP exp_un_list
+
+    MUL_OP  shift, and go to state 77
+
+    LIST_BIN_OP  reduce using rule 44 (exp_add)
+    REL_OP       reduce using rule 44 (exp_add)
+    ';'          reduce using rule 44 (exp_add)
+    ADD_OP       reduce using rule 44 (exp_add)
+    LOG_OP       reduce using rule 44 (exp_add)
+
+
+State 53
+
+   46 exp_mult: exp_un_list •
+
+    LIST_BIN_OP  reduce using rule 46 (exp_mult)
+    REL_OP       reduce using rule 46 (exp_mult)
+    ';'          reduce using rule 46 (exp_mult)
+    ADD_OP       reduce using rule 46 (exp_mult)
+    MUL_OP       reduce using rule 46 (exp_mult)
+    LOG_OP       reduce using rule 46 (exp_mult)
+
+
+State 54
+
+   47 exp_un_list: un_list_op • exp_un
+
+    ID           shift, and go to state 78
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    '('          shift, and go to state 34
+
+    exp_un      go to state 79
+    factor      go to state 56
+    funct_call  go to state 57
+    const       go to state 58
+
+
+State 55
+
+   48 exp_un_list: exp_un •
+
+    LIST_BIN_OP  reduce using rule 48 (exp_un_list)
+    REL_OP       reduce using rule 48 (exp_un_list)
+    ';'          reduce using rule 48 (exp_un_list)
+    ADD_OP       reduce using rule 48 (exp_un_list)
+    MUL_OP       reduce using rule 48 (exp_un_list)
+    LOG_OP       reduce using rule 48 (exp_un_list)
+
+
+State 56
+
+   51 exp_un: factor •
+
+    LIST_BIN_OP  reduce using rule 51 (exp_un)
+    REL_OP       reduce using rule 51 (exp_un)
+    ';'          reduce using rule 51 (exp_un)
+    ADD_OP       reduce using rule 51 (exp_un)
+    MUL_OP       reduce using rule 51 (exp_un)
+    LOG_OP       reduce using rule 51 (exp_un)
+
+
+State 57
+
+   53 factor: funct_call •
+
+    LIST_BIN_OP  reduce using rule 53 (factor)
+    REL_OP       reduce using rule 53 (factor)
+    ';'          reduce using rule 53 (factor)
+    ADD_OP       reduce using rule 53 (factor)
+    MUL_OP       reduce using rule 53 (factor)
+    LOG_OP       reduce using rule 53 (factor)
+
+
+State 58
+
+   54 factor: const •
+
+    LIST_BIN_OP  reduce using rule 54 (factor)
+    REL_OP       reduce using rule 54 (factor)
+    ';'          reduce using rule 54 (factor)
+    ADD_OP       reduce using rule 54 (factor)
+    MUL_OP       reduce using rule 54 (factor)
+    LOG_OP       reduce using rule 54 (factor)
+
+
+State 59
+
+    6 var_decl: TYPE ID • ';'
+
+    ';'  shift, and go to state 132
+
+
+State 60
+
+   30 read: READ '(' • ID ')'
+
+    ID  shift, and go to state 80
+
+
+State 61
+
+   31 write: WRITE '(' • exp_log ')'
+   32      | WRITE '(' • STRING ')'
+
+    STRING       shift, and go to state 81
+    ID           shift, and go to state 133
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_log      go to state 82
+    exp_list     go to state 122
+    exp_rel      go to state 123
+    exp_add      go to state 124
+    exp_mult     go to state 125
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 62
+
+   33 write: WRITELN '(' • exp_log ')'
+   34      | WRITELN '(' • STRING ')'
+
+    STRING       shift, and go to state 83
+    ID           shift, and go to state 133
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_log      go to state 84
+    exp_list     go to state 122
+    exp_rel      go to state 123
+    exp_add      go to state 124
+    exp_mult     go to state 125
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 63
+
+   35 exp: ID ASSIGN_OP • exp
+
+    ID           shift, and go to state 26
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp          go to state 85
+    exp_log      go to state 48
+    exp_list     go to state 49
+    exp_rel      go to state 50
+    exp_add      go to state 51
+    exp_mult     go to state 52
+    exp_un_list  go to state 53
+    un_list_op   go to state 54
+    exp_un       go to state 55
+    factor       go to state 56
+    funct_call   go to state 57
+    const        go to state 58
+
+
+State 64
+
+   56 funct_call: ID '(' • argument ')'
+
+    ID           shift, and go to state 134
+    INT_VALUE    shift, and go to state 135
+    FLOAT_VALUE  shift, and go to state 136
+    NIL_RW       shift, and go to state 137
+    '('          shift, and go to state 138
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    ')'  reduce using rule 58 (argument)
+
+    exp_log      go to state 86
+    exp_list     go to state 139
+    exp_rel      go to state 140
+    exp_add      go to state 141
+    exp_mult     go to state 142
+    exp_un_list  go to state 143
+    un_list_op   go to state 144
+    exp_un       go to state 145
+    factor       go to state 146
+    funct_call   go to state 147
+    argument     go to state 87
+    arg_list     go to state 88
+    const        go to state 148
+
+
+State 65
+
+   28 for_statement: FOR_RW '(' • exp ';' exp ';' exp ')' statement
+
+    ID           shift, and go to state 26
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp          go to state 89
+    exp_log      go to state 48
+    exp_list     go to state 49
+    exp_rel      go to state 50
+    exp_add      go to state 51
+    exp_mult     go to state 52
+    exp_un_list  go to state 53
+    un_list_op   go to state 54
+    exp_un       go to state 55
+    factor       go to state 56
+    funct_call   go to state 57
+    const        go to state 58
+
+
+State 66
+
+   26 if_statement: IF_RW '(' • exp_log ')' statements
+   27             | IF_RW '(' • exp_log ')' statements ELSE_RW statements
+
+    ID           shift, and go to state 133
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_log      go to state 90
+    exp_list     go to state 122
+    exp_rel      go to state 123
+    exp_add      go to state 124
+    exp_mult     go to state 125
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 67
+
+   29 return_statement: RETURN_RW exp_statement •
+
+    TYPE         reduce using rule 29 (return_statement)
+    READ         reduce using rule 29 (return_statement)
+    WRITE        reduce using rule 29 (return_statement)
+    WRITELN      reduce using rule 29 (return_statement)
+    ID           reduce using rule 29 (return_statement)
+    INT_VALUE    reduce using rule 29 (return_statement)
+    FLOAT_VALUE  reduce using rule 29 (return_statement)
+    NIL_RW       reduce using rule 29 (return_statement)
+    FOR_RW       reduce using rule 29 (return_statement)
+    IF_RW        reduce using rule 29 (return_statement)
+    RETURN_RW    reduce using rule 29 (return_statement)
+    ';'          reduce using rule 29 (return_statement)
+    '{'          reduce using rule 29 (return_statement)
+    '}'          reduce using rule 29 (return_statement)
+    '('          reduce using rule 29 (return_statement)
+    EXC_OP       reduce using rule 29 (return_statement)
+    LIST_UN_OP   reduce using rule 29 (return_statement)
+
+
+State 68
+
+   52 factor: '(' exp • ')'
+
+    ')'  shift, and go to state 91
+
+
+State 69
+
+   23 declarations: var_decl declarations •
+
+    '}'  reduce using rule 23 (declarations)
+
+
+State 70
+
+   24 declarations: statement declarations •
+
+    '}'  reduce using rule 24 (declarations)
+
+
+State 71
+
+   22 statements: '{' declarations '}' •
+
+    $end  reduce using rule 22 (statements)
+    TYPE  reduce using rule 22 (statements)
+
+
+State 72
+
+   20 exp_statement: exp ';' •
+
+    TYPE         reduce using rule 20 (exp_statement)
+    READ         reduce using rule 20 (exp_statement)
+    WRITE        reduce using rule 20 (exp_statement)
+    WRITELN      reduce using rule 20 (exp_statement)
+    ID           reduce using rule 20 (exp_statement)
+    INT_VALUE    reduce using rule 20 (exp_statement)
+    FLOAT_VALUE  reduce using rule 20 (exp_statement)
+    NIL_RW       reduce using rule 20 (exp_statement)
+    FOR_RW       reduce using rule 20 (exp_statement)
+    IF_RW        reduce using rule 20 (exp_statement)
+    RETURN_RW    reduce using rule 20 (exp_statement)
+    ';'          reduce using rule 20 (exp_statement)
+    '{'          reduce using rule 20 (exp_statement)
+    '}'          reduce using rule 20 (exp_statement)
+    '('          reduce using rule 20 (exp_statement)
+    EXC_OP       reduce using rule 20 (exp_statement)
+    LIST_UN_OP   reduce using rule 20 (exp_statement)
+
+
+State 73
+
+   37 exp_log: exp_log LOG_OP • exp_list
+
+    ID           shift, and go to state 78
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_list     go to state 92
+    exp_rel      go to state 50
+    exp_add      go to state 51
+    exp_mult     go to state 52
+    exp_un_list  go to state 53
+    un_list_op   go to state 54
+    exp_un       go to state 55
+    factor       go to state 56
+    funct_call   go to state 57
+    const        go to state 58
+
+
+State 74
+
+   39 exp_list: exp_list LIST_BIN_OP • exp_rel
+
+    ID           shift, and go to state 78
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_rel      go to state 93
+    exp_add      go to state 51
+    exp_mult     go to state 52
+    exp_un_list  go to state 53
+    un_list_op   go to state 54
+    exp_un       go to state 55
+    factor       go to state 56
+    funct_call   go to state 57
+    const        go to state 58
+
+
+State 75
+
+   41 exp_rel: exp_rel REL_OP • exp_add
+
+    ID           shift, and go to state 78
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_add      go to state 94
+    exp_mult     go to state 52
+    exp_un_list  go to state 53
+    un_list_op   go to state 54
+    exp_un       go to state 55
+    factor       go to state 56
+    funct_call   go to state 57
+    const        go to state 58
+
+
+State 76
+
+   43 exp_add: exp_add ADD_OP • exp_mult
+
+    ID           shift, and go to state 78
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_mult     go to state 95
+    exp_un_list  go to state 53
+    un_list_op   go to state 54
+    exp_un       go to state 55
+    factor       go to state 56
+    funct_call   go to state 57
+    const        go to state 58
+
+
+State 77
+
+   45 exp_mult: exp_mult MUL_OP • exp_un_list
+
+    ID           shift, and go to state 78
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_un_list  go to state 96
+    un_list_op   go to state 54
+    exp_un       go to state 55
+    factor       go to state 56
+    funct_call   go to state 57
+    const        go to state 58
+
+
+State 78
+
+   55 factor: ID •
+   56 funct_call: ID • '(' argument ')'
+
+    '('  shift, and go to state 64
+
+    LIST_BIN_OP  reduce using rule 55 (factor)
+    REL_OP       reduce using rule 55 (factor)
+    ';'          reduce using rule 55 (factor)
+    ADD_OP       reduce using rule 55 (factor)
+    MUL_OP       reduce using rule 55 (factor)
+    LOG_OP       reduce using rule 55 (factor)
+
+
+State 79
+
+   47 exp_un_list: un_list_op exp_un •
+
+    LIST_BIN_OP  reduce using rule 47 (exp_un_list)
+    REL_OP       reduce using rule 47 (exp_un_list)
+    ';'          reduce using rule 47 (exp_un_list)
+    ADD_OP       reduce using rule 47 (exp_un_list)
+    MUL_OP       reduce using rule 47 (exp_un_list)
+    LOG_OP       reduce using rule 47 (exp_un_list)
+
+
+State 80
+
+   30 read: READ '(' ID • ')'
+
+    ')'  shift, and go to state 97
+
+
+State 81
+
+   32 write: WRITE '(' STRING • ')'
+
+    ')'  shift, and go to state 98
+
+
+State 82
+
+   31 write: WRITE '(' exp_log • ')'
+   37 exp_log: exp_log • LOG_OP exp_list
+
+    ')'     shift, and go to state 99
+    LOG_OP  shift, and go to state 149
+
+
+State 83
+
+   34 write: WRITELN '(' STRING • ')'
+
+    ')'  shift, and go to state 100
+
+
+State 84
+
+   33 write: WRITELN '(' exp_log • ')'
+   37 exp_log: exp_log • LOG_OP exp_list
+
+    ')'     shift, and go to state 101
+    LOG_OP  shift, and go to state 149
+
+
+State 85
+
+   35 exp: ID ASSIGN_OP exp •
+
+    ';'  reduce using rule 35 (exp)
+
+
+State 86
+
+   37 exp_log: exp_log • LOG_OP exp_list
+   59 arg_list: exp_log • ',' arg_list
+   60         | exp_log •
+
+    ','     shift, and go to state 102
+    LOG_OP  shift, and go to state 150
+
+    ')'  reduce using rule 60 (arg_list)
+
+
+State 87
+
+   56 funct_call: ID '(' argument • ')'
+
+    ')'  shift, and go to state 103
+
+
+State 88
+
+   57 argument: arg_list •
+
+    ')'  reduce using rule 57 (argument)
+
+
+State 89
+
+   28 for_statement: FOR_RW '(' exp • ';' exp ';' exp ')' statement
+
+    ';'  shift, and go to state 104
+
+
+State 90
+
+   26 if_statement: IF_RW '(' exp_log • ')' statements
+   27             | IF_RW '(' exp_log • ')' statements ELSE_RW statements
+   37 exp_log: exp_log • LOG_OP exp_list
+
+    ')'     shift, and go to state 105
+    LOG_OP  shift, and go to state 149
+
+
+State 91
+
+   52 factor: '(' exp ')' •
+
+    LIST_BIN_OP  reduce using rule 52 (factor)
+    REL_OP       reduce using rule 52 (factor)
+    ';'          reduce using rule 52 (factor)
+    ADD_OP       reduce using rule 52 (factor)
+    MUL_OP       reduce using rule 52 (factor)
+    LOG_OP       reduce using rule 52 (factor)
+
+
+State 92
+
+   37 exp_log: exp_log LOG_OP exp_list •
+   39 exp_list: exp_list • LIST_BIN_OP exp_rel
+
+    LIST_BIN_OP  shift, and go to state 74
+
+    ';'     reduce using rule 37 (exp_log)
+    LOG_OP  reduce using rule 37 (exp_log)
+
+
+State 93
+
+   39 exp_list: exp_list LIST_BIN_OP exp_rel •
+   41 exp_rel: exp_rel • REL_OP exp_add
+
+    REL_OP  shift, and go to state 75
+
+    LIST_BIN_OP  reduce using rule 39 (exp_list)
+    ';'          reduce using rule 39 (exp_list)
+    LOG_OP       reduce using rule 39 (exp_list)
+
+
+State 94
+
+   41 exp_rel: exp_rel REL_OP exp_add •
+   43 exp_add: exp_add • ADD_OP exp_mult
+
+    ADD_OP  shift, and go to state 76
+
+    LIST_BIN_OP  reduce using rule 41 (exp_rel)
+    REL_OP       reduce using rule 41 (exp_rel)
+    ';'          reduce using rule 41 (exp_rel)
+    LOG_OP       reduce using rule 41 (exp_rel)
+
+
+State 95
+
+   43 exp_add: exp_add ADD_OP exp_mult •
+   45 exp_mult: exp_mult • MUL_OP exp_un_list
+
+    MUL_OP  shift, and go to state 77
+
+    LIST_BIN_OP  reduce using rule 43 (exp_add)
+    REL_OP       reduce using rule 43 (exp_add)
+    ';'          reduce using rule 43 (exp_add)
+    ADD_OP       reduce using rule 43 (exp_add)
+    LOG_OP       reduce using rule 43 (exp_add)
+
+
+State 96
+
+   45 exp_mult: exp_mult MUL_OP exp_un_list •
+
+    LIST_BIN_OP  reduce using rule 45 (exp_mult)
+    REL_OP       reduce using rule 45 (exp_mult)
+    ';'          reduce using rule 45 (exp_mult)
+    ADD_OP       reduce using rule 45 (exp_mult)
+    MUL_OP       reduce using rule 45 (exp_mult)
+    LOG_OP       reduce using rule 45 (exp_mult)
+
+
+State 97
+
+   30 read: READ '(' ID ')' •
+
+    TYPE         reduce using rule 30 (read)
+    READ         reduce using rule 30 (read)
+    WRITE        reduce using rule 30 (read)
+    WRITELN      reduce using rule 30 (read)
+    ID           reduce using rule 30 (read)
+    INT_VALUE    reduce using rule 30 (read)
+    FLOAT_VALUE  reduce using rule 30 (read)
+    NIL_RW       reduce using rule 30 (read)
+    FOR_RW       reduce using rule 30 (read)
+    IF_RW        reduce using rule 30 (read)
+    RETURN_RW    reduce using rule 30 (read)
+    ';'          reduce using rule 30 (read)
+    '{'          reduce using rule 30 (read)
+    '}'          reduce using rule 30 (read)
+    '('          reduce using rule 30 (read)
+    EXC_OP       reduce using rule 30 (read)
+    LIST_UN_OP   reduce using rule 30 (read)
+
+
+State 98
+
+   32 write: WRITE '(' STRING ')' •
+
+    TYPE         reduce using rule 32 (write)
+    READ         reduce using rule 32 (write)
+    WRITE        reduce using rule 32 (write)
+    WRITELN      reduce using rule 32 (write)
+    ID           reduce using rule 32 (write)
+    INT_VALUE    reduce using rule 32 (write)
+    FLOAT_VALUE  reduce using rule 32 (write)
+    NIL_RW       reduce using rule 32 (write)
+    FOR_RW       reduce using rule 32 (write)
+    IF_RW        reduce using rule 32 (write)
+    RETURN_RW    reduce using rule 32 (write)
+    ';'          reduce using rule 32 (write)
+    '{'          reduce using rule 32 (write)
+    '}'          reduce using rule 32 (write)
+    '('          reduce using rule 32 (write)
+    EXC_OP       reduce using rule 32 (write)
+    LIST_UN_OP   reduce using rule 32 (write)
+
+
+State 99
+
+   31 write: WRITE '(' exp_log ')' •
+
+    TYPE         reduce using rule 31 (write)
+    READ         reduce using rule 31 (write)
+    WRITE        reduce using rule 31 (write)
+    WRITELN      reduce using rule 31 (write)
+    ID           reduce using rule 31 (write)
+    INT_VALUE    reduce using rule 31 (write)
+    FLOAT_VALUE  reduce using rule 31 (write)
+    NIL_RW       reduce using rule 31 (write)
+    FOR_RW       reduce using rule 31 (write)
+    IF_RW        reduce using rule 31 (write)
+    RETURN_RW    reduce using rule 31 (write)
+    ';'          reduce using rule 31 (write)
+    '{'          reduce using rule 31 (write)
+    '}'          reduce using rule 31 (write)
+    '('          reduce using rule 31 (write)
+    EXC_OP       reduce using rule 31 (write)
+    LIST_UN_OP   reduce using rule 31 (write)
+
+
+State 100
+
+   34 write: WRITELN '(' STRING ')' •
+
+    TYPE         reduce using rule 34 (write)
+    READ         reduce using rule 34 (write)
+    WRITE        reduce using rule 34 (write)
+    WRITELN      reduce using rule 34 (write)
+    ID           reduce using rule 34 (write)
+    INT_VALUE    reduce using rule 34 (write)
+    FLOAT_VALUE  reduce using rule 34 (write)
+    NIL_RW       reduce using rule 34 (write)
+    FOR_RW       reduce using rule 34 (write)
+    IF_RW        reduce using rule 34 (write)
+    RETURN_RW    reduce using rule 34 (write)
+    ';'          reduce using rule 34 (write)
+    '{'          reduce using rule 34 (write)
+    '}'          reduce using rule 34 (write)
+    '('          reduce using rule 34 (write)
+    EXC_OP       reduce using rule 34 (write)
+    LIST_UN_OP   reduce using rule 34 (write)
+
+
+State 101
+
+   33 write: WRITELN '(' exp_log ')' •
+
+    TYPE         reduce using rule 33 (write)
+    READ         reduce using rule 33 (write)
+    WRITE        reduce using rule 33 (write)
+    WRITELN      reduce using rule 33 (write)
+    ID           reduce using rule 33 (write)
+    INT_VALUE    reduce using rule 33 (write)
+    FLOAT_VALUE  reduce using rule 33 (write)
+    NIL_RW       reduce using rule 33 (write)
+    FOR_RW       reduce using rule 33 (write)
+    IF_RW        reduce using rule 33 (write)
+    RETURN_RW    reduce using rule 33 (write)
+    ';'          reduce using rule 33 (write)
+    '{'          reduce using rule 33 (write)
+    '}'          reduce using rule 33 (write)
+    '('          reduce using rule 33 (write)
+    EXC_OP       reduce using rule 33 (write)
+    LIST_UN_OP   reduce using rule 33 (write)
+
+
+State 102
+
+   59 arg_list: exp_log ',' • arg_list
+
+    ID           shift, and go to state 134
+    INT_VALUE    shift, and go to state 135
+    FLOAT_VALUE  shift, and go to state 136
+    NIL_RW       shift, and go to state 137
+    '('          shift, and go to state 138
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_log      go to state 86
+    exp_list     go to state 139
+    exp_rel      go to state 140
+    exp_add      go to state 141
+    exp_mult     go to state 142
+    exp_un_list  go to state 143
+    un_list_op   go to state 144
+    exp_un       go to state 145
+    factor       go to state 146
+    funct_call   go to state 147
+    arg_list     go to state 106
+    const        go to state 148
+
+
+State 103
+
+   56 funct_call: ID '(' argument ')' •
+
+    LIST_BIN_OP  reduce using rule 56 (funct_call)
+    REL_OP       reduce using rule 56 (funct_call)
+    ';'          reduce using rule 56 (funct_call)
+    ADD_OP       reduce using rule 56 (funct_call)
+    MUL_OP       reduce using rule 56 (funct_call)
+    LOG_OP       reduce using rule 56 (funct_call)
+
+
+State 104
+
+   28 for_statement: FOR_RW '(' exp ';' • exp ';' exp ')' statement
+
+    ID           shift, and go to state 26
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp          go to state 107
+    exp_log      go to state 48
+    exp_list     go to state 49
+    exp_rel      go to state 50
+    exp_add      go to state 51
+    exp_mult     go to state 52
+    exp_un_list  go to state 53
+    un_list_op   go to state 54
+    exp_un       go to state 55
+    factor       go to state 56
+    funct_call   go to state 57
+    const        go to state 58
+
+
+State 105
+
+   26 if_statement: IF_RW '(' exp_log ')' • statements
+   27             | IF_RW '(' exp_log ')' • statements ELSE_RW statements
+
+    '{'  shift, and go to state 151
+
+    statements  go to state 108
+
+
+State 106
+
+   59 arg_list: exp_log ',' arg_list •
+
+    ')'  reduce using rule 59 (arg_list)
+
+
+State 107
+
+   28 for_statement: FOR_RW '(' exp ';' exp • ';' exp ')' statement
+
+    ';'  shift, and go to state 109
+
+
+State 108
+
+   26 if_statement: IF_RW '(' exp_log ')' statements •
+   27             | IF_RW '(' exp_log ')' statements • ELSE_RW statements
+
+    ELSE_RW  shift, and go to state 110
+
+    TYPE         reduce using rule 26 (if_statement)
+    READ         reduce using rule 26 (if_statement)
+    WRITE        reduce using rule 26 (if_statement)
+    WRITELN      reduce using rule 26 (if_statement)
+    ID           reduce using rule 26 (if_statement)
+    INT_VALUE    reduce using rule 26 (if_statement)
+    FLOAT_VALUE  reduce using rule 26 (if_statement)
+    NIL_RW       reduce using rule 26 (if_statement)
+    FOR_RW       reduce using rule 26 (if_statement)
+    IF_RW        reduce using rule 26 (if_statement)
+    RETURN_RW    reduce using rule 26 (if_statement)
+    ';'          reduce using rule 26 (if_statement)
+    '{'          reduce using rule 26 (if_statement)
+    '}'          reduce using rule 26 (if_statement)
+    '('          reduce using rule 26 (if_statement)
+    EXC_OP       reduce using rule 26 (if_statement)
+    LIST_UN_OP   reduce using rule 26 (if_statement)
+
+
+State 109
+
+   28 for_statement: FOR_RW '(' exp ';' exp ';' • exp ')' statement
+
+    ID           shift, and go to state 116
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp          go to state 111
+    exp_log      go to state 121
+    exp_list     go to state 122
+    exp_rel      go to state 123
+    exp_add      go to state 124
+    exp_mult     go to state 125
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 110
+
+   27 if_statement: IF_RW '(' exp_log ')' statements ELSE_RW • statements
+
+    '{'  shift, and go to state 115
+
+    statements  go to state 112
+
+
+State 111
+
+   28 for_statement: FOR_RW '(' exp ';' exp ';' exp • ')' statement
+
+    ')'  shift, and go to state 113
+
+
+State 112
+
+   27 if_statement: IF_RW '(' exp_log ')' statements ELSE_RW statements •
+
+    TYPE         reduce using rule 27 (if_statement)
+    READ         reduce using rule 27 (if_statement)
+    WRITE        reduce using rule 27 (if_statement)
+    WRITELN      reduce using rule 27 (if_statement)
+    ID           reduce using rule 27 (if_statement)
+    INT_VALUE    reduce using rule 27 (if_statement)
+    FLOAT_VALUE  reduce using rule 27 (if_statement)
+    NIL_RW       reduce using rule 27 (if_statement)
+    FOR_RW       reduce using rule 27 (if_statement)
+    IF_RW        reduce using rule 27 (if_statement)
+    RETURN_RW    reduce using rule 27 (if_statement)
+    ';'          reduce using rule 27 (if_statement)
+    '{'          reduce using rule 27 (if_statement)
+    '}'          reduce using rule 27 (if_statement)
+    '('          reduce using rule 27 (if_statement)
+    EXC_OP       reduce using rule 27 (if_statement)
+    LIST_UN_OP   reduce using rule 27 (if_statement)
+
+
+State 113
+
+   28 for_statement: FOR_RW '(' exp ';' exp ';' exp ')' • statement
+
+    READ         shift, and go to state 23
+    WRITE        shift, and go to state 24
+    WRITELN      shift, and go to state 25
+    ID           shift, and go to state 26
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    FOR_RW       shift, and go to state 30
+    IF_RW        shift, and go to state 31
+    RETURN_RW    shift, and go to state 32
+    ';'          shift, and go to state 33
+    '{'          shift, and go to state 115
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    statement         go to state 114
+    exp_statement     go to state 39
+    statements        go to state 40
+    if_statement      go to state 42
+    for_statement     go to state 43
+    return_statement  go to state 44
+    read              go to state 45
+    write             go to state 46
+    exp               go to state 47
+    exp_log           go to state 48
+    exp_list          go to state 49
+    exp_rel           go to state 50
+    exp_add           go to state 51
+    exp_mult          go to state 52
+    exp_un_list       go to state 53
+    un_list_op        go to state 54
+    exp_un            go to state 55
+    factor            go to state 56
+    funct_call        go to state 57
+    const             go to state 58
+
+
+State 114
+
+   28 for_statement: FOR_RW '(' exp ';' exp ';' exp ')' statement •
+
+    TYPE         reduce using rule 28 (for_statement)
+    READ         reduce using rule 28 (for_statement)
+    WRITE        reduce using rule 28 (for_statement)
+    WRITELN      reduce using rule 28 (for_statement)
+    ID           reduce using rule 28 (for_statement)
+    INT_VALUE    reduce using rule 28 (for_statement)
+    FLOAT_VALUE  reduce using rule 28 (for_statement)
+    NIL_RW       reduce using rule 28 (for_statement)
+    FOR_RW       reduce using rule 28 (for_statement)
+    IF_RW        reduce using rule 28 (for_statement)
+    RETURN_RW    reduce using rule 28 (for_statement)
+    ';'          reduce using rule 28 (for_statement)
+    '{'          reduce using rule 28 (for_statement)
+    '}'          reduce using rule 28 (for_statement)
+    '('          reduce using rule 28 (for_statement)
+    EXC_OP       reduce using rule 28 (for_statement)
+    LIST_UN_OP   reduce using rule 28 (for_statement)
+
+
+State 115
+
+   22 statements: '{' • declarations '}'
+
+    TYPE         shift, and go to state 22
+    READ         shift, and go to state 23
+    WRITE        shift, and go to state 24
+    WRITELN      shift, and go to state 25
+    ID           shift, and go to state 26
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    FOR_RW       shift, and go to state 30
+    IF_RW        shift, and go to state 31
+    RETURN_RW    shift, and go to state 32
+    ';'          shift, and go to state 33
+    '{'          shift, and go to state 115
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    '}'  reduce using rule 25 (declarations)
+
+    var_decl          go to state 37
+    statement         go to state 38
+    exp_statement     go to state 39
+    statements        go to state 40
+    declarations      go to state 152
+    if_statement      go to state 42
+    for_statement     go to state 43
+    return_statement  go to state 44
+    read              go to state 45
+    write             go to state 46
+    exp               go to state 47
+    exp_log           go to state 48
+    exp_list          go to state 49
+    exp_rel           go to state 50
+    exp_add           go to state 51
+    exp_mult          go to state 52
+    exp_un_list       go to state 53
+    un_list_op        go to state 54
+    exp_un            go to state 55
+    factor            go to state 56
+    funct_call        go to state 57
+    const             go to state 58
+
+
+State 116
+
+   35 exp: ID • ASSIGN_OP exp
+   55 factor: ID •
+   56 funct_call: ID • '(' argument ')'
+
+    ASSIGN_OP  shift, and go to state 153
+    '('        shift, and go to state 154
+
+    LIST_BIN_OP  reduce using rule 55 (factor)
+    REL_OP       reduce using rule 55 (factor)
+    ')'          reduce using rule 55 (factor)
+    ADD_OP       reduce using rule 55 (factor)
+    MUL_OP       reduce using rule 55 (factor)
+    LOG_OP       reduce using rule 55 (factor)
+
+
+State 117
+
+   61 const: INT_VALUE •
+
+    LIST_BIN_OP  reduce using rule 61 (const)
+    REL_OP       reduce using rule 61 (const)
+    ')'          reduce using rule 61 (const)
+    ADD_OP       reduce using rule 61 (const)
+    MUL_OP       reduce using rule 61 (const)
+    LOG_OP       reduce using rule 61 (const)
+
+
+State 118
+
+   62 const: FLOAT_VALUE •
+
+    LIST_BIN_OP  reduce using rule 62 (const)
+    REL_OP       reduce using rule 62 (const)
+    ')'          reduce using rule 62 (const)
+    ADD_OP       reduce using rule 62 (const)
+    MUL_OP       reduce using rule 62 (const)
+    LOG_OP       reduce using rule 62 (const)
+
+
+State 119
+
+   63 const: NIL_RW •
+
+    LIST_BIN_OP  reduce using rule 63 (const)
+    REL_OP       reduce using rule 63 (const)
+    ')'          reduce using rule 63 (const)
+    ADD_OP       reduce using rule 63 (const)
+    MUL_OP       reduce using rule 63 (const)
+    LOG_OP       reduce using rule 63 (const)
+
+
+State 120
+
+   52 factor: '(' • exp ')'
+
+    ID           shift, and go to state 116
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp          go to state 155
+    exp_log      go to state 121
+    exp_list     go to state 122
+    exp_rel      go to state 123
+    exp_add      go to state 124
+    exp_mult     go to state 125
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 121
+
+   36 exp: exp_log •
+   37 exp_log: exp_log • LOG_OP exp_list
+
+    LOG_OP  shift, and go to state 149
+
+    ')'  reduce using rule 36 (exp)
+
+
+State 122
+
+   38 exp_log: exp_list •
+   39 exp_list: exp_list • LIST_BIN_OP exp_rel
+
+    LIST_BIN_OP  shift, and go to state 156
+
+    ')'     reduce using rule 38 (exp_log)
+    LOG_OP  reduce using rule 38 (exp_log)
+
+
+State 123
+
+   40 exp_list: exp_rel •
+   41 exp_rel: exp_rel • REL_OP exp_add
+
+    REL_OP  shift, and go to state 157
+
+    LIST_BIN_OP  reduce using rule 40 (exp_list)
+    ')'          reduce using rule 40 (exp_list)
+    LOG_OP       reduce using rule 40 (exp_list)
+
+
+State 124
+
+   42 exp_rel: exp_add •
+   43 exp_add: exp_add • ADD_OP exp_mult
+
+    ADD_OP  shift, and go to state 158
+
+    LIST_BIN_OP  reduce using rule 42 (exp_rel)
+    REL_OP       reduce using rule 42 (exp_rel)
+    ')'          reduce using rule 42 (exp_rel)
+    LOG_OP       reduce using rule 42 (exp_rel)
+
+
+State 125
+
+   44 exp_add: exp_mult •
+   45 exp_mult: exp_mult • MUL_OP exp_un_list
+
+    MUL_OP  shift, and go to state 159
+
+    LIST_BIN_OP  reduce using rule 44 (exp_add)
+    REL_OP       reduce using rule 44 (exp_add)
+    ')'          reduce using rule 44 (exp_add)
+    ADD_OP       reduce using rule 44 (exp_add)
+    LOG_OP       reduce using rule 44 (exp_add)
+
+
+State 126
+
+   46 exp_mult: exp_un_list •
+
+    LIST_BIN_OP  reduce using rule 46 (exp_mult)
+    REL_OP       reduce using rule 46 (exp_mult)
+    ')'          reduce using rule 46 (exp_mult)
+    ADD_OP       reduce using rule 46 (exp_mult)
+    MUL_OP       reduce using rule 46 (exp_mult)
+    LOG_OP       reduce using rule 46 (exp_mult)
+
+
+State 127
+
+   47 exp_un_list: un_list_op • exp_un
+
+    ID           shift, and go to state 133
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+
+    exp_un      go to state 160
+    factor      go to state 129
+    funct_call  go to state 130
+    const       go to state 131
+
+
+State 128
+
+   48 exp_un_list: exp_un •
+
+    LIST_BIN_OP  reduce using rule 48 (exp_un_list)
+    REL_OP       reduce using rule 48 (exp_un_list)
+    ')'          reduce using rule 48 (exp_un_list)
+    ADD_OP       reduce using rule 48 (exp_un_list)
+    MUL_OP       reduce using rule 48 (exp_un_list)
+    LOG_OP       reduce using rule 48 (exp_un_list)
+
+
+State 129
+
+   51 exp_un: factor •
+
+    LIST_BIN_OP  reduce using rule 51 (exp_un)
+    REL_OP       reduce using rule 51 (exp_un)
+    ')'          reduce using rule 51 (exp_un)
+    ADD_OP       reduce using rule 51 (exp_un)
+    MUL_OP       reduce using rule 51 (exp_un)
+    LOG_OP       reduce using rule 51 (exp_un)
+
+
+State 130
+
+   53 factor: funct_call •
+
+    LIST_BIN_OP  reduce using rule 53 (factor)
+    REL_OP       reduce using rule 53 (factor)
+    ')'          reduce using rule 53 (factor)
+    ADD_OP       reduce using rule 53 (factor)
+    MUL_OP       reduce using rule 53 (factor)
+    LOG_OP       reduce using rule 53 (factor)
+
+
+State 131
+
+   54 factor: const •
+
+    LIST_BIN_OP  reduce using rule 54 (factor)
+    REL_OP       reduce using rule 54 (factor)
+    ')'          reduce using rule 54 (factor)
+    ADD_OP       reduce using rule 54 (factor)
+    MUL_OP       reduce using rule 54 (factor)
+    LOG_OP       reduce using rule 54 (factor)
+
+
+State 132
+
+    6 var_decl: TYPE ID ';' •
+
+    TYPE         reduce using rule 6 (var_decl)
+    READ         reduce using rule 6 (var_decl)
+    WRITE        reduce using rule 6 (var_decl)
+    WRITELN      reduce using rule 6 (var_decl)
+    ID           reduce using rule 6 (var_decl)
+    INT_VALUE    reduce using rule 6 (var_decl)
+    FLOAT_VALUE  reduce using rule 6 (var_decl)
+    NIL_RW       reduce using rule 6 (var_decl)
+    FOR_RW       reduce using rule 6 (var_decl)
+    IF_RW        reduce using rule 6 (var_decl)
+    RETURN_RW    reduce using rule 6 (var_decl)
+    ';'          reduce using rule 6 (var_decl)
+    '{'          reduce using rule 6 (var_decl)
+    '}'          reduce using rule 6 (var_decl)
+    '('          reduce using rule 6 (var_decl)
+    EXC_OP       reduce using rule 6 (var_decl)
+    LIST_UN_OP   reduce using rule 6 (var_decl)
+
+
+State 133
+
+   55 factor: ID •
+   56 funct_call: ID • '(' argument ')'
+
+    '('  shift, and go to state 154
+
+    LIST_BIN_OP  reduce using rule 55 (factor)
+    REL_OP       reduce using rule 55 (factor)
+    ')'          reduce using rule 55 (factor)
+    ADD_OP       reduce using rule 55 (factor)
+    MUL_OP       reduce using rule 55 (factor)
+    LOG_OP       reduce using rule 55 (factor)
+
+
+State 134
+
+   55 factor: ID •
+   56 funct_call: ID • '(' argument ')'
+
+    '('  shift, and go to state 161
+
+    LIST_BIN_OP  reduce using rule 55 (factor)
+    REL_OP       reduce using rule 55 (factor)
+    ')'          reduce using rule 55 (factor)
+    ','          reduce using rule 55 (factor)
+    ADD_OP       reduce using rule 55 (factor)
+    MUL_OP       reduce using rule 55 (factor)
+    LOG_OP       reduce using rule 55 (factor)
+
+
+State 135
+
+   61 const: INT_VALUE •
+
+    LIST_BIN_OP  reduce using rule 61 (const)
+    REL_OP       reduce using rule 61 (const)
+    ')'          reduce using rule 61 (const)
+    ','          reduce using rule 61 (const)
+    ADD_OP       reduce using rule 61 (const)
+    MUL_OP       reduce using rule 61 (const)
+    LOG_OP       reduce using rule 61 (const)
+
+
+State 136
+
+   62 const: FLOAT_VALUE •
+
+    LIST_BIN_OP  reduce using rule 62 (const)
+    REL_OP       reduce using rule 62 (const)
+    ')'          reduce using rule 62 (const)
+    ','          reduce using rule 62 (const)
+    ADD_OP       reduce using rule 62 (const)
+    MUL_OP       reduce using rule 62 (const)
+    LOG_OP       reduce using rule 62 (const)
+
+
+State 137
+
+   63 const: NIL_RW •
+
+    LIST_BIN_OP  reduce using rule 63 (const)
+    REL_OP       reduce using rule 63 (const)
+    ')'          reduce using rule 63 (const)
+    ','          reduce using rule 63 (const)
+    ADD_OP       reduce using rule 63 (const)
+    MUL_OP       reduce using rule 63 (const)
+    LOG_OP       reduce using rule 63 (const)
+
+
+State 138
+
+   52 factor: '(' • exp ')'
+
+    ID           shift, and go to state 116
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp          go to state 162
+    exp_log      go to state 121
+    exp_list     go to state 122
+    exp_rel      go to state 123
+    exp_add      go to state 124
+    exp_mult     go to state 125
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 139
+
+   38 exp_log: exp_list •
+   39 exp_list: exp_list • LIST_BIN_OP exp_rel
+
+    LIST_BIN_OP  shift, and go to state 163
+
+    ')'     reduce using rule 38 (exp_log)
+    ','     reduce using rule 38 (exp_log)
+    LOG_OP  reduce using rule 38 (exp_log)
+
+
+State 140
+
+   40 exp_list: exp_rel •
+   41 exp_rel: exp_rel • REL_OP exp_add
+
+    REL_OP  shift, and go to state 164
+
+    LIST_BIN_OP  reduce using rule 40 (exp_list)
+    ')'          reduce using rule 40 (exp_list)
+    ','          reduce using rule 40 (exp_list)
+    LOG_OP       reduce using rule 40 (exp_list)
+
+
+State 141
+
+   42 exp_rel: exp_add •
+   43 exp_add: exp_add • ADD_OP exp_mult
+
+    ADD_OP  shift, and go to state 165
+
+    LIST_BIN_OP  reduce using rule 42 (exp_rel)
+    REL_OP       reduce using rule 42 (exp_rel)
+    ')'          reduce using rule 42 (exp_rel)
+    ','          reduce using rule 42 (exp_rel)
+    LOG_OP       reduce using rule 42 (exp_rel)
+
+
+State 142
+
+   44 exp_add: exp_mult •
+   45 exp_mult: exp_mult • MUL_OP exp_un_list
+
+    MUL_OP  shift, and go to state 166
+
+    LIST_BIN_OP  reduce using rule 44 (exp_add)
+    REL_OP       reduce using rule 44 (exp_add)
+    ')'          reduce using rule 44 (exp_add)
+    ','          reduce using rule 44 (exp_add)
+    ADD_OP       reduce using rule 44 (exp_add)
+    LOG_OP       reduce using rule 44 (exp_add)
+
+
+State 143
+
+   46 exp_mult: exp_un_list •
+
+    LIST_BIN_OP  reduce using rule 46 (exp_mult)
+    REL_OP       reduce using rule 46 (exp_mult)
+    ')'          reduce using rule 46 (exp_mult)
+    ','          reduce using rule 46 (exp_mult)
+    ADD_OP       reduce using rule 46 (exp_mult)
+    MUL_OP       reduce using rule 46 (exp_mult)
+    LOG_OP       reduce using rule 46 (exp_mult)
+
+
+State 144
+
+   47 exp_un_list: un_list_op • exp_un
+
+    ID           shift, and go to state 134
+    INT_VALUE    shift, and go to state 135
+    FLOAT_VALUE  shift, and go to state 136
+    NIL_RW       shift, and go to state 137
+    '('          shift, and go to state 138
+
+    exp_un      go to state 167
+    factor      go to state 146
+    funct_call  go to state 147
+    const       go to state 148
+
+
+State 145
+
+   48 exp_un_list: exp_un •
+
+    LIST_BIN_OP  reduce using rule 48 (exp_un_list)
+    REL_OP       reduce using rule 48 (exp_un_list)
+    ')'          reduce using rule 48 (exp_un_list)
+    ','          reduce using rule 48 (exp_un_list)
+    ADD_OP       reduce using rule 48 (exp_un_list)
+    MUL_OP       reduce using rule 48 (exp_un_list)
+    LOG_OP       reduce using rule 48 (exp_un_list)
+
+
+State 146
+
+   51 exp_un: factor •
+
+    LIST_BIN_OP  reduce using rule 51 (exp_un)
+    REL_OP       reduce using rule 51 (exp_un)
+    ')'          reduce using rule 51 (exp_un)
+    ','          reduce using rule 51 (exp_un)
+    ADD_OP       reduce using rule 51 (exp_un)
+    MUL_OP       reduce using rule 51 (exp_un)
+    LOG_OP       reduce using rule 51 (exp_un)
+
+
+State 147
+
+   53 factor: funct_call •
+
+    LIST_BIN_OP  reduce using rule 53 (factor)
+    REL_OP       reduce using rule 53 (factor)
+    ')'          reduce using rule 53 (factor)
+    ','          reduce using rule 53 (factor)
+    ADD_OP       reduce using rule 53 (factor)
+    MUL_OP       reduce using rule 53 (factor)
+    LOG_OP       reduce using rule 53 (factor)
+
+
+State 148
+
+   54 factor: const •
+
+    LIST_BIN_OP  reduce using rule 54 (factor)
+    REL_OP       reduce using rule 54 (factor)
+    ')'          reduce using rule 54 (factor)
+    ','          reduce using rule 54 (factor)
+    ADD_OP       reduce using rule 54 (factor)
+    MUL_OP       reduce using rule 54 (factor)
+    LOG_OP       reduce using rule 54 (factor)
+
+
+State 149
+
+   37 exp_log: exp_log LOG_OP • exp_list
+
+    ID           shift, and go to state 133
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_list     go to state 168
+    exp_rel      go to state 123
+    exp_add      go to state 124
+    exp_mult     go to state 125
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 150
+
+   37 exp_log: exp_log LOG_OP • exp_list
+
+    ID           shift, and go to state 134
+    INT_VALUE    shift, and go to state 135
+    FLOAT_VALUE  shift, and go to state 136
+    NIL_RW       shift, and go to state 137
+    '('          shift, and go to state 138
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_list     go to state 169
+    exp_rel      go to state 140
+    exp_add      go to state 141
+    exp_mult     go to state 142
+    exp_un_list  go to state 143
+    un_list_op   go to state 144
+    exp_un       go to state 145
+    factor       go to state 146
+    funct_call   go to state 147
+    const        go to state 148
+
+
+State 151
+
+   22 statements: '{' • declarations '}'
+
+    TYPE         shift, and go to state 22
+    READ         shift, and go to state 23
+    WRITE        shift, and go to state 24
+    WRITELN      shift, and go to state 25
+    ID           shift, and go to state 26
+    INT_VALUE    shift, and go to state 27
+    FLOAT_VALUE  shift, and go to state 28
+    NIL_RW       shift, and go to state 29
+    FOR_RW       shift, and go to state 30
+    IF_RW        shift, and go to state 31
+    RETURN_RW    shift, and go to state 32
+    ';'          shift, and go to state 33
+    '{'          shift, and go to state 115
+    '('          shift, and go to state 34
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    '}'  reduce using rule 25 (declarations)
+
+    var_decl          go to state 37
+    statement         go to state 38
+    exp_statement     go to state 39
+    statements        go to state 40
+    declarations      go to state 170
+    if_statement      go to state 42
+    for_statement     go to state 43
+    return_statement  go to state 44
+    read              go to state 45
+    write             go to state 46
+    exp               go to state 47
+    exp_log           go to state 48
+    exp_list          go to state 49
+    exp_rel           go to state 50
+    exp_add           go to state 51
+    exp_mult          go to state 52
+    exp_un_list       go to state 53
+    un_list_op        go to state 54
+    exp_un            go to state 55
+    factor            go to state 56
+    funct_call        go to state 57
+    const             go to state 58
+
+
+State 152
+
+   22 statements: '{' declarations • '}'
+
+    '}'  shift, and go to state 171
+
+
+State 153
+
+   35 exp: ID ASSIGN_OP • exp
+
+    ID           shift, and go to state 116
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp          go to state 172
+    exp_log      go to state 121
+    exp_list     go to state 122
+    exp_rel      go to state 123
+    exp_add      go to state 124
+    exp_mult     go to state 125
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 154
+
+   56 funct_call: ID '(' • argument ')'
+
+    ID           shift, and go to state 134
+    INT_VALUE    shift, and go to state 135
+    FLOAT_VALUE  shift, and go to state 136
+    NIL_RW       shift, and go to state 137
+    '('          shift, and go to state 138
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    ')'  reduce using rule 58 (argument)
+
+    exp_log      go to state 86
+    exp_list     go to state 139
+    exp_rel      go to state 140
+    exp_add      go to state 141
+    exp_mult     go to state 142
+    exp_un_list  go to state 143
+    un_list_op   go to state 144
+    exp_un       go to state 145
+    factor       go to state 146
+    funct_call   go to state 147
+    argument     go to state 173
+    arg_list     go to state 88
+    const        go to state 148
+
+
+State 155
+
+   52 factor: '(' exp • ')'
+
+    ')'  shift, and go to state 174
+
+
+State 156
+
+   39 exp_list: exp_list LIST_BIN_OP • exp_rel
+
+    ID           shift, and go to state 133
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_rel      go to state 175
+    exp_add      go to state 124
+    exp_mult     go to state 125
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 157
+
+   41 exp_rel: exp_rel REL_OP • exp_add
+
+    ID           shift, and go to state 133
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_add      go to state 176
+    exp_mult     go to state 125
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 158
+
+   43 exp_add: exp_add ADD_OP • exp_mult
+
+    ID           shift, and go to state 133
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_mult     go to state 177
+    exp_un_list  go to state 126
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 159
+
+   45 exp_mult: exp_mult MUL_OP • exp_un_list
+
+    ID           shift, and go to state 133
+    INT_VALUE    shift, and go to state 117
+    FLOAT_VALUE  shift, and go to state 118
+    NIL_RW       shift, and go to state 119
+    '('          shift, and go to state 120
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_un_list  go to state 178
+    un_list_op   go to state 127
+    exp_un       go to state 128
+    factor       go to state 129
+    funct_call   go to state 130
+    const        go to state 131
+
+
+State 160
+
+   47 exp_un_list: un_list_op exp_un •
+
+    LIST_BIN_OP  reduce using rule 47 (exp_un_list)
+    REL_OP       reduce using rule 47 (exp_un_list)
+    ')'          reduce using rule 47 (exp_un_list)
+    ADD_OP       reduce using rule 47 (exp_un_list)
+    MUL_OP       reduce using rule 47 (exp_un_list)
+    LOG_OP       reduce using rule 47 (exp_un_list)
+
+
+State 161
+
+   56 funct_call: ID '(' • argument ')'
+
+    ID           shift, and go to state 134
+    INT_VALUE    shift, and go to state 135
+    FLOAT_VALUE  shift, and go to state 136
+    NIL_RW       shift, and go to state 137
+    '('          shift, and go to state 138
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    ')'  reduce using rule 58 (argument)
+
+    exp_log      go to state 86
+    exp_list     go to state 139
+    exp_rel      go to state 140
+    exp_add      go to state 141
+    exp_mult     go to state 142
+    exp_un_list  go to state 143
+    un_list_op   go to state 144
+    exp_un       go to state 145
+    factor       go to state 146
+    funct_call   go to state 147
+    argument     go to state 179
+    arg_list     go to state 88
+    const        go to state 148
+
+
+State 162
+
+   52 factor: '(' exp • ')'
+
+    ')'  shift, and go to state 180
+
+
+State 163
+
+   39 exp_list: exp_list LIST_BIN_OP • exp_rel
+
+    ID           shift, and go to state 134
+    INT_VALUE    shift, and go to state 135
+    FLOAT_VALUE  shift, and go to state 136
+    NIL_RW       shift, and go to state 137
+    '('          shift, and go to state 138
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_rel      go to state 181
+    exp_add      go to state 141
+    exp_mult     go to state 142
+    exp_un_list  go to state 143
+    un_list_op   go to state 144
+    exp_un       go to state 145
+    factor       go to state 146
+    funct_call   go to state 147
+    const        go to state 148
+
+
+State 164
+
+   41 exp_rel: exp_rel REL_OP • exp_add
+
+    ID           shift, and go to state 134
+    INT_VALUE    shift, and go to state 135
+    FLOAT_VALUE  shift, and go to state 136
+    NIL_RW       shift, and go to state 137
+    '('          shift, and go to state 138
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_add      go to state 182
+    exp_mult     go to state 142
+    exp_un_list  go to state 143
+    un_list_op   go to state 144
+    exp_un       go to state 145
+    factor       go to state 146
+    funct_call   go to state 147
+    const        go to state 148
+
+
+State 165
+
+   43 exp_add: exp_add ADD_OP • exp_mult
+
+    ID           shift, and go to state 134
+    INT_VALUE    shift, and go to state 135
+    FLOAT_VALUE  shift, and go to state 136
+    NIL_RW       shift, and go to state 137
+    '('          shift, and go to state 138
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_mult     go to state 183
+    exp_un_list  go to state 143
+    un_list_op   go to state 144
+    exp_un       go to state 145
+    factor       go to state 146
+    funct_call   go to state 147
+    const        go to state 148
+
+
+State 166
+
+   45 exp_mult: exp_mult MUL_OP • exp_un_list
+
+    ID           shift, and go to state 134
+    INT_VALUE    shift, and go to state 135
+    FLOAT_VALUE  shift, and go to state 136
+    NIL_RW       shift, and go to state 137
+    '('          shift, and go to state 138
+    EXC_OP       shift, and go to state 35
+    LIST_UN_OP   shift, and go to state 36
+
+    exp_un_list  go to state 184
+    un_list_op   go to state 144
+    exp_un       go to state 145
+    factor       go to state 146
+    funct_call   go to state 147
+    const        go to state 148
+
+
+State 167
+
+   47 exp_un_list: un_list_op exp_un •
+
+    LIST_BIN_OP  reduce using rule 47 (exp_un_list)
+    REL_OP       reduce using rule 47 (exp_un_list)
+    ')'          reduce using rule 47 (exp_un_list)
+    ','          reduce using rule 47 (exp_un_list)
+    ADD_OP       reduce using rule 47 (exp_un_list)
+    MUL_OP       reduce using rule 47 (exp_un_list)
+    LOG_OP       reduce using rule 47 (exp_un_list)
+
+
+State 168
+
+   37 exp_log: exp_log LOG_OP exp_list •
+   39 exp_list: exp_list • LIST_BIN_OP exp_rel
+
+    LIST_BIN_OP  shift, and go to state 156
+
+    ')'     reduce using rule 37 (exp_log)
+    LOG_OP  reduce using rule 37 (exp_log)
+
+
+State 169
+
+   37 exp_log: exp_log LOG_OP exp_list •
+   39 exp_list: exp_list • LIST_BIN_OP exp_rel
+
+    LIST_BIN_OP  shift, and go to state 163
+
+    ')'     reduce using rule 37 (exp_log)
+    ','     reduce using rule 37 (exp_log)
+    LOG_OP  reduce using rule 37 (exp_log)
+
+
+State 170
+
+   22 statements: '{' declarations • '}'
+
+    '}'  shift, and go to state 185
+
+
+State 171
+
+   22 statements: '{' declarations '}' •
+
+    TYPE         reduce using rule 22 (statements)
+    READ         reduce using rule 22 (statements)
+    WRITE        reduce using rule 22 (statements)
+    WRITELN      reduce using rule 22 (statements)
+    ID           reduce using rule 22 (statements)
+    INT_VALUE    reduce using rule 22 (statements)
+    FLOAT_VALUE  reduce using rule 22 (statements)
+    NIL_RW       reduce using rule 22 (statements)
+    FOR_RW       reduce using rule 22 (statements)
+    IF_RW        reduce using rule 22 (statements)
+    RETURN_RW    reduce using rule 22 (statements)
+    ';'          reduce using rule 22 (statements)
+    '{'          reduce using rule 22 (statements)
+    '}'          reduce using rule 22 (statements)
+    '('          reduce using rule 22 (statements)
+    EXC_OP       reduce using rule 22 (statements)
+    LIST_UN_OP   reduce using rule 22 (statements)
+
+
+State 172
+
+   35 exp: ID ASSIGN_OP exp •
+
+    ')'  reduce using rule 35 (exp)
+
+
+State 173
+
+   56 funct_call: ID '(' argument • ')'
+
+    ')'  shift, and go to state 186
+
+
+State 174
+
+   52 factor: '(' exp ')' •
+
+    LIST_BIN_OP  reduce using rule 52 (factor)
+    REL_OP       reduce using rule 52 (factor)
+    ')'          reduce using rule 52 (factor)
+    ADD_OP       reduce using rule 52 (factor)
+    MUL_OP       reduce using rule 52 (factor)
+    LOG_OP       reduce using rule 52 (factor)
+
+
+State 175
+
+   39 exp_list: exp_list LIST_BIN_OP exp_rel •
+   41 exp_rel: exp_rel • REL_OP exp_add
+
+    REL_OP  shift, and go to state 157
+
+    LIST_BIN_OP  reduce using rule 39 (exp_list)
+    ')'          reduce using rule 39 (exp_list)
+    LOG_OP       reduce using rule 39 (exp_list)
+
+
+State 176
+
+   41 exp_rel: exp_rel REL_OP exp_add •
+   43 exp_add: exp_add • ADD_OP exp_mult
+
+    ADD_OP  shift, and go to state 158
+
+    LIST_BIN_OP  reduce using rule 41 (exp_rel)
+    REL_OP       reduce using rule 41 (exp_rel)
+    ')'          reduce using rule 41 (exp_rel)
+    LOG_OP       reduce using rule 41 (exp_rel)
+
+
+State 177
+
+   43 exp_add: exp_add ADD_OP exp_mult •
+   45 exp_mult: exp_mult • MUL_OP exp_un_list
+
+    MUL_OP  shift, and go to state 159
+
+    LIST_BIN_OP  reduce using rule 43 (exp_add)
+    REL_OP       reduce using rule 43 (exp_add)
+    ')'          reduce using rule 43 (exp_add)
+    ADD_OP       reduce using rule 43 (exp_add)
+    LOG_OP       reduce using rule 43 (exp_add)
+
+
+State 178
+
+   45 exp_mult: exp_mult MUL_OP exp_un_list •
+
+    LIST_BIN_OP  reduce using rule 45 (exp_mult)
+    REL_OP       reduce using rule 45 (exp_mult)
+    ')'          reduce using rule 45 (exp_mult)
+    ADD_OP       reduce using rule 45 (exp_mult)
+    MUL_OP       reduce using rule 45 (exp_mult)
+    LOG_OP       reduce using rule 45 (exp_mult)
+
+
+State 179
+
+   56 funct_call: ID '(' argument • ')'
+
+    ')'  shift, and go to state 187
+
+
+State 180
+
+   52 factor: '(' exp ')' •
+
+    LIST_BIN_OP  reduce using rule 52 (factor)
+    REL_OP       reduce using rule 52 (factor)
+    ')'          reduce using rule 52 (factor)
+    ','          reduce using rule 52 (factor)
+    ADD_OP       reduce using rule 52 (factor)
+    MUL_OP       reduce using rule 52 (factor)
+    LOG_OP       reduce using rule 52 (factor)
+
+
+State 181
+
+   39 exp_list: exp_list LIST_BIN_OP exp_rel •
+   41 exp_rel: exp_rel • REL_OP exp_add
+
+    REL_OP  shift, and go to state 164
+
+    LIST_BIN_OP  reduce using rule 39 (exp_list)
+    ')'          reduce using rule 39 (exp_list)
+    ','          reduce using rule 39 (exp_list)
+    LOG_OP       reduce using rule 39 (exp_list)
+
+
+State 182
+
+   41 exp_rel: exp_rel REL_OP exp_add •
+   43 exp_add: exp_add • ADD_OP exp_mult
+
+    ADD_OP  shift, and go to state 165
+
+    LIST_BIN_OP  reduce using rule 41 (exp_rel)
+    REL_OP       reduce using rule 41 (exp_rel)
+    ')'          reduce using rule 41 (exp_rel)
+    ','          reduce using rule 41 (exp_rel)
+    LOG_OP       reduce using rule 41 (exp_rel)
+
+
+State 183
+
+   43 exp_add: exp_add ADD_OP exp_mult •
+   45 exp_mult: exp_mult • MUL_OP exp_un_list
+
+    MUL_OP  shift, and go to state 166
+
+    LIST_BIN_OP  reduce using rule 43 (exp_add)
+    REL_OP       reduce using rule 43 (exp_add)
+    ')'          reduce using rule 43 (exp_add)
+    ','          reduce using rule 43 (exp_add)
+    ADD_OP       reduce using rule 43 (exp_add)
+    LOG_OP       reduce using rule 43 (exp_add)
+
+
+State 184
+
+   45 exp_mult: exp_mult MUL_OP exp_un_list •
+
+    LIST_BIN_OP  reduce using rule 45 (exp_mult)
+    REL_OP       reduce using rule 45 (exp_mult)
+    ')'          reduce using rule 45 (exp_mult)
+    ','          reduce using rule 45 (exp_mult)
+    ADD_OP       reduce using rule 45 (exp_mult)
+    MUL_OP       reduce using rule 45 (exp_mult)
+    LOG_OP       reduce using rule 45 (exp_mult)
+
+
+State 185
+
+   22 statements: '{' declarations '}' •
+
+    TYPE         reduce using rule 22 (statements)
+    READ         reduce using rule 22 (statements)
+    WRITE        reduce using rule 22 (statements)
+    WRITELN      reduce using rule 22 (statements)
+    ID           reduce using rule 22 (statements)
+    INT_VALUE    reduce using rule 22 (statements)
+    FLOAT_VALUE  reduce using rule 22 (statements)
+    NIL_RW       reduce using rule 22 (statements)
+    FOR_RW       reduce using rule 22 (statements)
+    IF_RW        reduce using rule 22 (statements)
+    RETURN_RW    reduce using rule 22 (statements)
+    ';'          reduce using rule 22 (statements)
+    '{'          reduce using rule 22 (statements)
+    '}'          reduce using rule 22 (statements)
+    '('          reduce using rule 22 (statements)
+    EXC_OP       reduce using rule 22 (statements)
+    LIST_UN_OP   reduce using rule 22 (statements)
+    ELSE_RW      reduce using rule 22 (statements)
+
+
+State 186
+
+   56 funct_call: ID '(' argument ')' •
+
+    LIST_BIN_OP  reduce using rule 56 (funct_call)
+    REL_OP       reduce using rule 56 (funct_call)
+    ')'          reduce using rule 56 (funct_call)
+    ADD_OP       reduce using rule 56 (funct_call)
+    MUL_OP       reduce using rule 56 (funct_call)
+    LOG_OP       reduce using rule 56 (funct_call)
+
+
+State 187
+
+   56 funct_call: ID '(' argument ')' •
+
+    LIST_BIN_OP  reduce using rule 56 (funct_call)
+    REL_OP       reduce using rule 56 (funct_call)
+    ')'          reduce using rule 56 (funct_call)
+    ','          reduce using rule 56 (funct_call)
+    ADD_OP       reduce using rule 56 (funct_call)
+    MUL_OP       reduce using rule 56 (funct_call)
+    LOG_OP       reduce using rule 56 (funct_call)
